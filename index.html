@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <!-- Basic Page Needs–– -->
+  <meta charset="utf-8">
+  <title>index</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/customize.css">
+  <script src='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js'></script>
+  <link href='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css' rel='stylesheet' />
+
+  <style>
+    #map_1,
+    #map_2,
+    #map_3,
+    #map_4{
+      height: 500px;
+      padding-left: 200px;
+      padding-right: 200px;
+    }
+  </style>
+
+  <!-- D3 -->
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+
+
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+
+</head>
+
+<body>
+
+  <div class="container one-bottom" style="margin-top: 50px">
+    <div class="ten columns">
+      <h2>Mobility on Demand Systems: Data-Driven Analysis, Simulation, Visualization</h2>
+      <p>
+        ARCH 6306/6050, DSBA 6010, ITIS 8010/6010: Wednesdays 6pm-8:30pm, Taught Online
+        <br>
+        Dr. Dimitris Papanikolaou | dpapanik@uncc.edu | Urban Synergetics Lab | https://urbansynergeticslab.net
+      </p>
+    </div>
+    <div class="two columns">
+      <a href="https://urbansynergeticslab.net/"><img class="scale-with-grid" src="img/LabLogo_dark_cropped.png"></a>
+      <a href="https://www.divvybikes.com/"><img class="scale-with-grid" src="https://d21xlh2maitm24.cloudfront.net/chi/Divvy-Bike_new_0119_v3.png?mtime=20190820123644"></a>
+    </div>
+  </div>
+
+
+  <div class="container one-bottom" style="margin-top: 50px">
+    <div class="twelve columns">
+      <h3>Divvy Bicycle Sharing</h3>
+      <h5>The data presented below is focused on shared bicycle data. The data used in this analysis was downloaded from
+        https://www.divvybikes.com/. Divvy is a bicycle ride sharing service located in Chicago, Illinois. Divvy’s bikes
+        and stations are owned by the Chicago Department of Transportation and Lyft operates the fleet. Currently the
+        fleet consists of over 600 stations throughout Chicago and Evanston Illinois with over 6000 bikes available for
+        use. Customers can pick up a bike at any station either by purchasing an annual membership for $9 per month
+        (charged $108 annually), purchasing a day pass for $15 per day or a single ride at $3.30 per trip. Customers can
+        use the interactive map showing available bikes at each station in real time either through a mobile app or the
+        Divvy website.
+      </h5>
+      <h3> Usage Statistics</h3>
+      <h5>
+        We analyzed Q1 2020 data to come up with station activity levels and usage statistics. We hope to compare this
+        data with Q1/Q2 2019 and Q2 2020 to see how ridership changed during the pandemic as well as how seasonality
+        impacts usage. From Q1 2020 data there were over 418,000 total rides logged. We cleaned the data by filtering
+        out any rides > 240 minutes and any rides <0 minutes. <br>
+          <br>
+          Average Trip Time (Mins): 9.40
+          <br>
+          Median Trip Time (Mins): 6:46
+          <br>
+          Member rides were 90% of the total ridership.
+
+      </h5>
+    </div>
+  </div>
+  <!-- Map 1 Starts -->
+  <div class="container one-bottom">
+    <div class="twelve columns">
+      <h3>Map 1: This map shows the location of 608 Divvy bike stations in Chicago and Evanston.</h3>
+      <div id="map_1" class="one-bottom"></div>
+      <script>
+    
+        L.mapbox.accessToken = 'pk.eyJ1IjoiY3NhbnNvbSIsImEiOiJja2t5bmlsaGcwODU5Mm9wbDhjOTZjZzR3In0.jHvbBKoo3qNl1zVsufGslw';
+    
+        var map_1 = L.mapbox.map('map_1')
+          .setView([41.885, -87.658,], 10)
+          .addLayer(L.mapbox.styleLayer('mapbox://styles/csansom/ckkynt8ay2x2p17qovzq354zp'));
+        map_1
+          .scrollWheelZoom.disable();
+      </script>
+    </div>
+  </div>
+  <!-- Map 1 ENDS -->
+
+  <!-- Map 2 Starts -->
+  <div class="container one-bottom">
+    <div class="twelve columns">
+      <h3>Map 2: This map shows total trips (starts + ends) for each station with the location dot sized to represent
+        the total activity level of each station relative to total trips.</h3>
+
+        <div id="map_2" class="one-bottom"></div>
+        <script>
+      
+          L.mapbox.accessToken = 'pk.eyJ1IjoiY3NhbnNvbSIsImEiOiJja2t5bmlsaGcwODU5Mm9wbDhjOTZjZzR3In0.jHvbBKoo3qNl1zVsufGslw';
+      
+          var map_2 = L.mapbox.map('map_2')
+            .setView([41.885, -87.658,], 10)
+            .addLayer(L.mapbox.styleLayer('mapbox://styles/csansom/ckl8ptft806uu19pw0hwdb1pk'));
+          map_2
+            .scrollWheelZoom.disable();
+        </script>
+
+
+    </div>
+  </div>
+  <!-- Map 2 ENDS -->
+
+
+  <!-- Map 3 Starts -->
+  <div class="container one-bottom">
+    <div class="twelve columns">
+      <h3>Map 3: This map shows Top 10 stations as per data compared between 2019 and 2020.</h3>
+      <div id="map_3" class="one-bottom"></div>
+      <script>
+    
+        L.mapbox.accessToken = 'pk.eyJ1Ijoic3ViaGFtc2FoIiwiYSI6ImNrbDVlajh3dDFnZXEyb3FpcG1ncHI4MjkifQ.ybCotMq5qBJcKi3xL_O9Og';
+    
+        var map_3 = L.mapbox.map('map_3')
+          .setView([41.885, -87.658,], 10)
+          .addLayer(L.mapbox.styleLayer('mapbox://styles/subhamsah/ckmd505j9465n17n7it80wpdo'));
+        map_3
+          .scrollWheelZoom.disable();
+      </script>
+    </div>
+  </div>
+<!-- Map 3 ENDS -->
+
+
+  <div class="container one-bottom">
+    <div class="twelve columns">
+      <h3>Chart 1: This chart compares total rides by the day of the week for April 2019 and April 2020.</h3>
+      <h5>
+        Chart 1 compares total rides from April 2019 and April 2020 by days of the week. In addition to the fact that
+        total ridership is down considerably in April 2020 as compared to 2019 there is also a change in customer
+        behavior. In 2019 customers were using the bikes more during the week while in 2020 Saturday and Sunday are the
+        busiest days. Perhaps this suggests that in 2019 these bikes were used more for commuting and in 2020 the bikes
+        are used more frequently for leisure.
+      </h5>
+    </div>
+  </div>
+
+  <!-- Load c3.css_chart1-->
+
+  <head>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/skeleton.css">
+    <link rel="stylesheet" href="css/customize.css">
+    <script src="https://unpkg.com/d3@5.12.0/dist/d3.min.js"></script>
+    <script src="https://unpkg.com/c3@0.7.11/c3.min.js"></script>
+  </head>
+
+  <body>
+    <div id="chart_1" style="transform: translate(-9%, 2%)"></div>
+    <script>
+      var chart = c3.generate({
+        bindto: '#chart_1',
+        size: {
+          height: 550,
+          width: 900,
+        },
+        data: {
+          x: 'x',
+          columns: [
+            ['x', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+            ['2019', 27089, 49996, 50008, 39976, 32499, 37458, 28283
+            ],
+            ['2020', 17915, 10745, 12813, 8718, 11703, 9972, 12910
+            ],
+          ],
+          type: 'bar'
+        },
+        axis: {
+          x: {
+            label: {
+              text: 'Day of the Week',
+              position: 'outer-center'
+              // inner-right : default
+              // inner-center
+              // inner-left
+              // outer-right
+              // outer-center
+              // outer-left
+            },
+            type: 'category',
+            tick: {
+              rotate: -45,
+              multiline: false
+            },
+            height: 125
+          },
+          y: {
+            label: {
+              text: 'Bike Trips',
+              position: 'outer-middle'
+              // inner-top : default
+              // inner-middle
+              // inner-bottom
+              // outer-top
+              // outer-middle
+              // outer-bottom
+            },
+          }
+        },
+        zoom: {
+          enabled: true
+        }
+      });
+    </script>
+    <br>
+
+    <div class="container one-bottom">
+      <div class="twelve columns">
+        <h3>Chart 2: This chart compares total ridership from the top 50 stations in terms of total activity from April
+          2019 and April 2020.</h3>
+        <h5>
+          Viewing the 2019 chord graph there are a few stations that produce more trips than the other related stations.
+          Looking at the 2020 chord graph you notice that the stations that produced a larger quantity of trips reduces
+          and the majority of the graph looks evenly distributed all around. But, all stations lose total number of
+          trips overall.
+        </h5>
+      </div>
+    </div>
+
+
+
+    <!-- Load c3.css_chart2 -->
+
+    <head>
+      <style>
+        .myDiv {
+
+          background-color: lightblue;
+          text-align: center;
+        }
+      </style>
+      <link rel="stylesheet" href="css/normalize.css">
+      <link rel="stylesheet" href="css/skeleton.css">
+      <link rel="stylesheet" href="css/customize.css">
+      <script src="https://unpkg.com/d3@5.12.0/dist/d3.min.js"></script>
+      <link href="https://unpkg.com/c3@0.7.11/c3.min.css" rel="stylesheet">
+      <script src="https://unpkg.com/c3@0.7.11/c3.min.js"></script>
+    </head>
+
+    <body>
+      <div id="chart_2" style="transform: translate(-3%, 2%)"></div>
+      <script>
+        var chart = c3.generate({
+          bindto: '#chart_2',
+          size: {
+            height: 550,
+            width: 900,
+          },
+          data: {
+            x: 'x',
+            columns: [
+              ['x', 'Ashland Ave & Division St', 'Broadway & Barry Ave', 'Canal St & Adams St', 'Canal St & Madison St', 'Canal St & Monroe St', 'Clark St & Elm St', 'Clark St & Randolph St', 'Clinton St & Jackson Blvd', 'Clinton St & Lake St', 'Clinton St & Madison St', 'Clinton St & Washington Blvd', 'Columbus Dr & Randolph St', 'Daley Center Plaza', 'Damen Ave & Pierce Ave', 'Dearborn St & Erie St', 'Dearborn St & Monroe St', 'Desplaines St & Jackson Blvd', 'Desplaines St & Kinzie St', 'Fairbanks Ct & Grand Ave', 'Franklin St & Jackson Blvd', 'Franklin St & Lake St', 'Franklin St & Monroe St', 'Green St & Madison St', 'Indiana Ave & Roosevelt Rd', 'Kingsbury St & Erie St', 'Kingsbury St & Kinzie St', 'Lake Shore Dr & Monroe St', 'Larrabee St & Kingsbury St', 'LaSalle St & Illinois St', 'LaSalle St & Jackson Blvd', 'McClurg Ct & Illinois St', 'Michigan Ave & Lake St', 'Michigan Ave & Washington St', 'Millennium Park', 'Morgan St & Lake St', 'Orleans St & Merchandise Mart Plaza', 'Ravenswood Ave & Lawrence Ave', 'Sheffield Ave & Fullerton Ave', 'St. Clair St & Erie St', 'State St & Kinzie St', 'State St & Randolph St', 'Streeter Dr & Grand Ave', 'University Ave & 57th St', 'Wabash Ave & Grand Ave', 'Wabash Ave & Roosevelt Rd', 'Wacker Dr & Washington St', 'Wells St & Concord Ln', 'Wells St & Hubbard St', 'Wells St & Huron St'],
+              ['2019', 1319, 1114, 3979, 2724, 1212, 1730, 1249, 1692, 1818, 3764, 4128, 3265, 2570, 1371, 1726, 1711, 998, 1535, 1521, 1394, 1268, 2764, 1179, 1358, 1444, 2435, 3304, 1768, 1262, 1745, 1273, 1786, 2394, 2050, 1325, 1963, 1199, 1516, 1227, 1389, 1581, 3851, 1059, 1570, 1401, 1325, 1410, 1505, 1493
+              ],
+              ['2020', 530, 605, 207, 154, 54, 850, 197, 120, 353, 337, 253, 538, 206, 402, 730, 329, 464, 720, 490, 259, 294, 201, 385, 544, 499, 416, 63, 210, 221, 186, 396, 365, 204, 299, 280, 169, 267, 279, 686, 229, 216, 202, 92, 614, 506, 77, 252, 422, 529
+              ],
+            ],
+            type: 'bar'
+          },
+          axis: {
+            x: {
+              label: {
+                text: 'Station Intersection',
+                position: 'outer-center'
+                // inner-right : default
+                // inner-center
+                // inner-left
+                // outer-right
+                // outer-center
+                // outer-left
+              },
+              type: 'category',
+              tick: {
+                rotate: -45,
+                multiline: false
+              },
+              height: 125
+            },
+            y: {
+              label: {
+                text: 'Bike Departures',
+                position: 'outer-middle'
+                // inner-top : default
+                // inner-middle
+                // inner-bottom
+                // outer-top
+                // outer-middle
+                // outer-bottom
+              },
+            }
+          },
+          zoom: {
+            enabled: true
+          }
+        });
+      </script>
+      <br>
+      <br>
+      <div class="container one-bottom">
+        <div class="twelve columns">
+          <h3>Chart 3: This chart shows the top 10 stations impacted from Covid-19 in terms of overall ridership change
+            from April 2019 and April 2020.</h3>
+          <h5>
+            Chart 3 shows that the COVID-19 pandemic definitely impacted the amount of trips produced within the month
+            of April. We also found that the top 10 station locations with the largest spread were situated near tourist
+            attractions within the city. Most of them situated around Millennium Park, Navy Pier and Union Station.
+          </h5>
+        </div>
+      </div>
+
+
+
+      <!-- Load c3.css_chart-3 -->
+
+      <head>
+        <script src="https://unpkg.com/d3@5.12.0/dist/d3.min.js"></script>
+        <link href="https://unpkg.com/c3@0.7.11/c3.min.css" rel="stylesheet">
+        <script src="https://unpkg.com/c3@0.7.11/c3.min.js"></script>
+      </head>
+
+      <body>
+        <div id="chart_3"style="transform: translate(-9%, 2%)"></div>
+        <script>
+          var chart = c3.generate({
+            bindto: '#chart_3',
+            size: {
+              height: 550,
+              width: 900,
+            },
+            data: {
+              x: 'x',
+              columns: [
+                ['x', 'Canal St & Adams St', 'Canal St & Madison St', 'Clinton St & Madison St', 'Clinton St & Washington Blvd', 'Columbus Dr & Randolph St', 'Daley Center Plaza', 'Franklin St & Monroe St', 'Lake Shore Dr & Monroe St', 'Michigan Ave & Washington St', 'Streeter Dr & Grand Ave',],
+                ['Difference Between 2019-2020', 3772, 2570, 3427, 3875, 2727, 2364, 2563, 3241, 2190, 3649
+                ],
+              ],
+              type: 'bar'
+            },
+            axis: {
+              x: {
+                label: {
+                  text: 'Top 10 Stations Impacted',
+                  position: 'outer-center'
+                  // inner-right : default
+                  // inner-center
+                  // inner-left
+                  // outer-right
+                  // outer-center
+                  // outer-left
+                },
+                type: 'category',
+                tick: {
+                  rotate: -45,
+                  multiline: false
+                },
+                height: 125
+              },
+              y: {
+                label: {
+                  text: 'Bike Departures',
+                  position: 'outer-middle'
+                  // inner-top : default
+                  // inner-middle
+                  // inner-bottom
+                  // outer-top
+                  // outer-middle
+                  // outer-bottom
+                },
+              }
+            },
+            zoom: {
+              enabled: true
+            }
+          });
+        </script>
+
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <div class="container one-bottom">
+          <div class="twelve columns">
+            <h3> The chord graphs below depicts all Divvy Bike sharing traffic between stations during April 2019 and
+              April 2020.</h3>
+            <h5>
+              Viewing the 2019 chord graph there are a few stations that produce more trips than the other related
+              stations. Looking at the 2020 chord graph you notice that the stations that produced a larger quantity of
+              trips reduces and the majority of the graph looks evenly distributed all around. But, all stations lose
+              total number of trips overall.
+            </h5>
+          </div>
+        </div>
+        <!-- chord graph start -->
+        <br>
+        <br>
+        <br>
+        <div class="container one-bottom" style="transform: translate(30%, +950%)">
+          <div class="twelve columns">
+            <h3> 2019 Trip Data.</h3>
+          </div>
+        </div>
+
+
+        <div class="wrap">
+          <iframe src="divvyChord.html"
+            style="width: 800px; height: 1400px; border: none; padding-left: 250px;"></iframe>
+        </div>
+
+
+        <div class="container one-bottom" style="transform: translate(30%, +400%)" )>
+          <div class=" twelve columns">
+            <h3> 2020 Trip Data.</h3>
+          </div>
+        </div>
+
+        <div class="wrap1">
+          <iframe src="divvyChord_1.html"
+            style="width:800px; height: 1400px; border: none; padding-left: 250px; margin-bottom: 0%;"></iframe>
+        </div>
+
+        <!-- Chord Graph end -->
+
+        <div class="container one-bottom" style="transform: translate(0%, -30%)">
+          <div class="twelve columns">
+            <h3> Narrative</h3>
+            <h5>
+              Ride sharing systems are becoming a global phenomenon and the benefits of public/ environmental health
+              are
+              significant. During this process we wanted to establish how we could show the effects of how a
+              worldwide
+              pandemic can influence a ride sharing system at a city scale. We wanted to see if this is actually a
+              concern for ride sharing systems or if the pandemic has not affected it to the magnitude that we
+              think.
+              Given the resources available, we have constructed a study comparing the responses of people, in
+              Chicago,
+              that are willing to use bike sharing systems before and during the initial start of the COVID-19
+              pandemic.
+              We found the results are drastic. Moving forward, the following steps after these findings would be to
+              analyze how, even in a pandemic, we can make bike sharing systems more attractive and safe to use
+              again.
+            </h5>
+            <br>
+            <br>
+            <br>
+            <br>
+            <h3> Research Focus
+            </h3>
+            <h5>
+              Our research using ridership data from Divvy is focused around the impacts of Covid-19 on the Chicago
+              bike
+              sharing program. We analyzed the data from April 2019 and compared it to data from April 2020.
+            </h5>
+            <br>
+            <br>
+            <h3>Map 4: This map shows the locations of bike stations we have seleted for the comparison.</h3>
+    <!-- Map 4 Starts -->
+    <div id="map_4" class="one-bottom"></div>
+    <script>
+
+      L.mapbox.accessToken = 'pk.eyJ1Ijoic3ViaGFtc2FoIiwiYSI6ImNrbDVlajh3dDFnZXEyb3FpcG1ncHI4MjkifQ.ybCotMq5qBJcKi3xL_O9Og';
+
+      var map_4 = L.mapbox.map('map_4')
+        .setView([41.885, -87.658,], 3)
+        .addLayer(L.mapbox.styleLayer('mapbox://styles/subhamsah/cko2kplre1you18moo563n9in'));
+      map_4
+        .scrollWheelZoom.disable();
+    </script>
+
+
+    <!-- Map 4 ENDS -->
+
+      <h3> This chart compares total rides by the day of the week for Portland-Biketown for April 2019 and April 2020.</h3>
+		  
+<!-- Load c3.css -->
+<head>
+        <script src="https://unpkg.com/d3@5.12.0/dist/d3.min.js"></script>
+        <link href="https://unpkg.com/c3@0.7.11/c3.min.css" rel="stylesheet">
+        <script src="https://unpkg.com/c3@0.7.11/c3.min.js"></script>
+    </head>
+    <body>
+        <div id="chart_4" style="transform: translate(-15%, 2%)"></div>
+<script>
+var chart = c3.generate({
+bindto: '#chart_4',
+    size: {
+        height: 550,
+        width: 900,
+    },
+    data: {
+        x : 'x',
+        columns: [
+            ['x', 'Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+            ['2019', 3300, 4538, 4672, 4055, 4120, 3723, 3836 
+],
+            ['2020', 1552, 993, 1063, 1005, 1194, 985, 967
+],
+        ],
+        type: 'bar'
+    },
+    axis: {
+        x: {
+            label: {
+                text: 'Day of the Week',
+                position: 'outer-center'
+                // inner-right : default
+                // inner-center
+                // inner-left
+                // outer-right
+                // outer-center
+                // outer-left
+            },
+            type: 'category',
+            tick: {
+                rotate: -45,
+                multiline: false
+            },
+            height: 125
+        },
+        y: {
+            label: {
+                text: 'Bike Trips',
+                 position: 'outer-middle'
+                // inner-top : default
+                // inner-middle
+                // inner-bottom
+                // outer-top
+                // outer-middle
+                // outer-bottom
+            },
+        }
+    },
+    zoom: {
+        enabled: true
+    }
+});
+</script>
+
+
+<h3> This chart compares total rides by the day of the week for Philadelphia-Indego for April 2019 and April 2020.</h3>
+	
+
+<!-- Load c3.css -->
+
+    <body>
+        <div id="chart_5" style="transform: translate(-15%, 2%)"></div>
+<script>
+var chart = c3.generate({
+bindto: '#chart_5',
+    size: {
+        height: 550,
+        width: 900,
+    },
+    data: {
+        x : 'x',
+        columns: [
+            ['x', 'Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+            ['2019', 6945, 9040, 10959, 8901, 8617, 5740, 7883 
+],
+            ['2020', 4826, 3573, 4679, 5240, 4011, 3176, 5517
+],
+        ],
+        type: 'bar'
+    },
+    axis: {
+        x: {
+            label: {
+                text: 'Day of the Week',
+                position: 'outer-center'
+                // inner-right : default
+                // inner-center
+                // inner-left
+                // outer-right
+                // outer-center
+                // outer-left
+            },
+            type: 'category',
+            tick: {
+                rotate: -45,
+                multiline: false
+            },
+            height: 125
+        },
+        y: {
+            label: {
+                text: 'Bike Trips',
+                 position: 'outer-middle'
+                // inner-top : default
+                // inner-middle
+                // inner-bottom
+                // outer-top
+                // outer-middle
+                // outer-bottom
+            },
+        }
+    },
+    zoom: {
+        enabled: true
+    }
+});
+</script>	
+  </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+<!-- StreamGraph Starts -->
+<div class="container one-bottom" style="transform: translate(0%, -70%)">
+  <div class="twelve columns">
+  <h3> This chart shows the change in ridership during various months(March2020-March2021) for different bikesharing systems.</h3>
+  <div class="wrap3" style="transform: translate(-15%, 2%)">
+  <iframe src="streamgraph.html" allowtransparency = "true" 
+     style="width: 90%; height:90%; border: none; padding-left: 100px; padding-right: 25px;"></iframe>
+</div>
+</div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<!-- StreamGraph Ends -->
+
+<div class="container one-bottom" style="transform: translate(0%, -275%)">
+        <h2>Team & Contributions</h2>
+        <br>
+        <a><img src="img/subham1.jpg" alt="logoArchitect" class="circular--landscape"></a>
+        <br>
+        <h3 class="Textdetails">Subham</h3>
+        <h5 class="Textdetails">Subham did this, did that.</h5>
+        <br>
+        <br>
+        <br>
+        <a><img src="img/Richie.jpg" alt="logoArchitect" class="circular--landscape"></a>
+        <br>
+        <h3 class="Textdetails">Richie</h3>
+        <h5 class="Textdetails">Richie did this,did that</h5>
+        <br>
+        <br>
+        <br>
+        <br>
+        <a><img src="img/garett.jpg" alt="logoArchitect" class="circular--landscape"></a>
+        <br>
+        <h3 class="Textdetails">Garett</h3>
+        <h5 class="Textdetails">Garett sid this, did that</h5>
+        <br>
+        <br>
+        <br>
+        <br>
+        <a><img src="img/deven.jpg" alt="logoArchitect" class="circular--landscape"></a>
+        <br>
+        <h3 class="Textdetails">Deven</h3>
+        <h5 class="Textdetails">Deven did this, did that </h5>
+</div> -->
+</body>
+
+</html>
