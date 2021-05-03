@@ -481,7 +481,8 @@ margin-bottom: 6px;
   height: 1200px;
   line-height: 500px;
   transform: translate(-10%,-20%);
-  overflow: hidden
+	position: fixed;
+
 }
 
 .wrap1
@@ -490,6 +491,7 @@ margin-bottom: 6px;
   height: 1200px;
   line-height: 500px;
   transform: translate(-10%,-50%);
+		position: center;
   overflow: hidden
 }
 
